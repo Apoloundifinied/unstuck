@@ -1,0 +1,22 @@
+# Staging only. Replace the D1 ID and hostname after approved resource creation.
+name = "unstuck-n8n-waitlist-staging"
+main = "src/worker.js"
+compatibility_date = "2026-10-16"
+workers_dev = true
+preview_urls = false
+
+[assets]
+# Separate generated copy: staging sitekey/contact never change public/config.js.
+directory = "./.wrangler/staging/public"
+binding = "ASSETS"
+run_worker_first = true
+
+[vars]
+# Empty until the exact staging hostname is known. Subscribe fails closed.
+TURNSTILE_HOSTNAMES = ""
+
+[[d1_databases]]
+binding = "DB"
+database_name = "unstuck-waitlist-staging"
+database_id = "COLE_O_DATABASE_ID_D1_STAGING_AQUI"
+migrations_dir = "migrations"
