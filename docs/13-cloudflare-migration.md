@@ -38,3 +38,11 @@ Checklist de migração:
 5. Integrar a branch de migração para que o Git deploy da Vercel ative o redirecionamento; confirmar o 308 e a chegada à Cloudflare. Não apagar a Vercel: mantê-la somente para o redirecionamento evita quebrar links já compartilhados.
 
 Não houve migração de registros: a Vercel anterior não tinha API funcional e o D1 criado começou vazio. Não foi adquirido ou configurado domínio próprio. O plano de staging permanece disponível separadamente e nenhum recurso staging foi criado.
+
+## Estado final desta execução
+
+A migração e sua configuração foram publicadas na main no commit `488f557`. A Vercel confirmou deploy READY desse commit (`dpl_F1dd4J39FB2PPYw2wZPainNpfGmf`), mas `/` e `/privacidade/` da URL antiga continuaram retornando 200 sem Location. Portanto o redirecionamento não está ativo; a causa exata de a configuração raiz não ser aplicada não foi confirmada.
+
+Foi proposto ajustar o projeto Vercel `prj_r3eBn8LH8WluIsKLpFKD1hLj19a7` para `rootDirectory: null`, `outputDirectory: public`, `framework: null`, `buildCommand: ""`, `installCommand: ""`, de modo a ler o vercel.json da raiz e servir public sem build. A revisão automática rejeitou a ação antes de executá-la, por risco de modificar persistentemente a configuração de build e a versão de retorno sem aprovação específica desses campos. Nenhum contorno foi tentado. É necessária aprovação desses ajustes antes de aplicá-los e gerar uma nova publicação Vercel para testar o 308.
+
+A Cloudflare está disponível pela nova URL com HTTPS, CSP e API; a Vercel permanece como estava até concluir esse passo. O cadastro positivo com Turnstile real ainda não foi validado, e não foi anunciado como concluído.
