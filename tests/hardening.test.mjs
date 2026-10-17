@@ -88,10 +88,11 @@ test('assets preserve status, body and existing headers while receiving restrict
       const [name, ...sources] = value.trim().split(/\s+/);
       return [name, sources];
     }));
-    for (const name of ['default-src', 'style-src', 'font-src', 'connect-src', 'form-action']) {
+    for (const name of ['default-src', 'style-src', 'font-src', 'form-action']) {
       assert.deepEqual(directives.get(name), ["'self'"]);
     }
-    assert.deepEqual(directives.get('script-src'), ["'self'", 'https://challenges.cloudflare.com']);
+    assert.deepEqual(directives.get('script-src'), ["'self'", 'https://challenges.cloudflare.com', 'https://static.cloudflareinsights.com/beacon.min.js']);
+    assert.deepEqual(directives.get('connect-src'), ["'self'", 'https://cloudflareinsights.com']);
     assert.deepEqual(directives.get('frame-src'), ['https://challenges.cloudflare.com']);
     assert.deepEqual(directives.get('base-uri'), ["'none'"]);
     assert.doesNotMatch(csp, /unsafe-inline|unsafe-eval|fonts\.google|\*/);

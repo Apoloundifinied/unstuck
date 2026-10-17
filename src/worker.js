@@ -131,7 +131,7 @@ export default {
     headers.set('Referrer-Policy','strict-origin-when-cross-origin');
     headers.set('X-Frame-Options','DENY');
     headers.set('Permissions-Policy','camera=(), microphone=(), geolocation=()');
-    headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'");
+    headers.set('Content-Security-Policy',"default-src 'self'; script-src 'self' https://challenges.cloudflare.com https://static.cloudflareinsights.com/beacon.min.js; frame-src https://challenges.cloudflare.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'self'");
     return new Response(response.body,{status:response.status,headers});
   }
 };
