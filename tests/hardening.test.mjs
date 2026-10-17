@@ -37,7 +37,7 @@ test('canonical and sharing metadata use the operator-confirmed public URL on bo
   for (const [file, path] of [['../public/index.html', '/'], ['../public/privacidade/index.html', '/privacidade/']]) {
     const html = await read(file);
     const canonical = html.match(/rel="canonical" href="([^"]+)"/)[1];
-    assert.equal(canonical, `https://unstuck-akl7.vercel.app${path}`);
+    assert.equal(canonical, `https://unstuck-n8n-waitlist.unstuck-n8n-waitlist.workers.dev${path}`);
     assert.equal(html.match(/property="og:url" content="([^"]+)"/)[1], canonical);
     const title = html.match(/<title>([^<]+)<\/title>/)[1];
     assert.equal(html.match(/property="og:title" content="([^"]+)"/)[1], title);

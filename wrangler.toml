@@ -1,6 +1,11 @@
 name = "unstuck-n8n-waitlist"
 main = "src/worker.js"
 compatibility_date = "2026-10-16"
+workers_dev = true
+preview_urls = false
+
+[vars]
+TURNSTILE_HOSTNAMES = "unstuck-n8n-waitlist.unstuck-n8n-waitlist.workers.dev"
 
 [assets]
 directory = "./public"
@@ -11,5 +16,5 @@ run_worker_first = true
 [[d1_databases]]
 binding = "DB"
 database_name = "unstuck-waitlist"
-database_id = "COLE_O_DATABASE_ID_D1_AQUI"
+database_id = "56a01069-a257-466e-a4b3-2fcc94936b73"
 migrations_dir = "migrations"

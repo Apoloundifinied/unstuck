@@ -1,5 +1,11 @@
 # Unstuck — n8n Services Waitlist (MVP 0)
 
+## Hospedagem Cloudflare — migração de 17/10/2026
+
+Destino: https://unstuck-n8n-waitlist.unstuck-n8n-waitlist.workers.dev/ . Worker e D1 de produção foram provisionados, com Turnstile Managed e secret no Worker; `public/config.js` contém somente sitekey pública e contato informado pelo operador. HTTPS, CSP e rejeições da API foram verificados; o primeiro cadastro válido ainda requer teste no navegador. `vercel.json` redireciona a hospedagem antiga para a Cloudflare. Estado detalhado em `docs/13-cloudflare-migration.md`.
+
+O frontend e `/api/*` são servidos pelo mesmo Worker. `wrangler.toml` agora aponta para o banco remoto existente; não crie um segundo banco ao seguir as instruções históricas de primeiro uso abaixo. Não reaplique migrações remotas nem publique sem conferir conta e alvo. O site não está liberado para divulgação antes da revisão da privacidade e das pendências operacionais.
+
 Projeto derivado da **waitlist Unstuck/B2B.rar**. Reaproveita identidade, CSS, logo, formulário de duas etapas, fluxo de consentimento e lógica anti-bot; substitui foco, textos, pesquisa de mercado e persistência.
 
 **Este é um piloto de pesquisa de mercado, não um marketplace funcional.** Não há autenticação, transações, chat, perfis públicos nem emprego garantido. O produto não executa n8n nem recebe tokens de workflows.

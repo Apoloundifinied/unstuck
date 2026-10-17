@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://unstuck-n8n-waitlist.unstuck-n8n-waitlist.workers.dev/:path*",
+      "permanent": true
+    }
+  ]
+}
