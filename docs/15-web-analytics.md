@@ -1,4 +1,4 @@
-# Cloudflare Web Analytics — integração preparada
+# Cloudflare Web Analytics — integração publicada
 
 Data: 17/10/2026. Host alvo: `unstuck-n8n-waitlist.unstuck-n8n-waitlist.workers.dev`.
 
@@ -13,18 +13,19 @@ As duas páginas carregam o loader após a configuração pública. A CSP permit
 ## Estado e verificação
 
 - 22 testes passaram: 19 anteriores mais token ausente/inválido, carregamento único e integração das duas páginas. Teste CSP atualizado para validar as exceções exatas.
-- O identificador Web Analytics continua vazio: ainda não existe coleta ativa por esta integração.
-- A configuração não foi publicada. Branch: `feat/cloudflare-web-analytics`.
+- O operador forneceu o snippet público e seu identificador foi instalado em `WEB_ANALYTICS_TOKEN`.
+- Publicado na Cloudflare em 17/10/2026, versão `5c5726d1-61ff-48c7-ad7e-a319a323f637`.
+- Navegador de produção: loader presente e exatamente um script beacon com o token fornecido, tanto na landing como na privacidade. Navegação entre páginas executada para permitir o envio dos beacons de saída. Sem erros de console relacionados a cloudflareinsights, CSP ou CORS nas observações. Mensagens da challenge Turnstile são independentes e não foram apresentadas como falha do analytics.
+- A recepção/agregação de números no painel ainda depende de confirmação do operador: não foi acessado um painel autenticado nem consultada a contagem.
 - Wrangler autenticado não oferece comando Web Analytics; não foram extraídas suas credenciais nem ampliadas permissões para chamar APIs.
 - Painel aberto em `https://dash.cloudflare.com/0f5d7a1f9de1123d487ec002a8e82664/web-analytics`. Ele solicitou login. Durante o login a aba foi para accounts.google.com e a revisão automática negou a leitura desse destino. Não foi tentado contorno. O operador deve concluir a autenticação e retornar ao painel Cloudflare para continuar.
 
-## Próximos passos
+## Conferência pelo operador
 
-1. Confirmar acesso ao painel e selecionar/criar o site para o hostname exato, evitando cadastro duplicado.
-2. Obter o token público no snippet de instalação manual e preencher `WEB_ANALYTICS_TOKEN`.
-3. Validar localmente CSP e carregamento do loader; publicar na Cloudflare.
-4. Abrir o site em um navegador sem bloqueio do beacon; verificar carregamento do script e ausência de erro CSP/CORS. Sair da página para permitir o envio das métricas finais.
-5. Conferir no painel a recepção dos dados, considerando seu tempo de processamento. Não confundir o gráfico de requests do Worker (inclui CSS, scripts, fontes e bots) com visitas do Web Analytics.
+1. No painel Web Analytics da conta, selecionar o hostname exato do Unstuck.
+2. Abrir o site em um navegador sem bloqueio do beacon e navegar para outra página, permitindo o envio das métricas finais.
+3. Conferir no painel a recepção dos dados, considerando seu tempo de processamento. Não confundir o gráfico de requests do Worker (inclui CSS, scripts, fontes e bots) com visitas do Web Analytics.
+4. Considerar que as visitas do próprio operador e do QA também podem aparecer. A coleta não recupera o histórico anterior à ativação.
 
 ## Fontes oficiais consultadas
 

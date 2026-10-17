@@ -4,5 +4,5 @@ window.UNSTUCK_CONFIG = {
   // Contato real obrigatório para direitos de privacidade.
   CONTACT_EMAIL: 'robsonldasilva72@gmail.com',
   // Public Web Analytics site token, generated in the Cloudflare dashboard.
-  WEB_ANALYTICS_TOKEN: ''
+  WEB_ANALYTICS_TOKEN: '5a9704e01d99400bb1eb0208ca84753d'
 };
