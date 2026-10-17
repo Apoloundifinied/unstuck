@@ -1,0 +1,4 @@
+# Copy to .dev.vars (ignored by git). This file contains placeholders only.
+# Local testing: use Cloudflare TEST secret, never a production secret here.
+TURNSTILE_SECRET=YOUR_LOCAL_TEST_SECRET
+TURNSTILE_HOSTNAMES=localhost,127.0.0.1

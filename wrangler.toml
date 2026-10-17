@@ -5,7 +5,8 @@ compatibility_date = "2026-10-16"
 [assets]
 directory = "./public"
 binding = "ASSETS"
-run_worker_first = ["/api/*"]
+# All assets pass through the Worker so security headers are applied.
+run_worker_first = true
 
 [[d1_databases]]
 binding = "DB"

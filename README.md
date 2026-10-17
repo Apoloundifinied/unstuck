@@ -63,3 +63,12 @@ The public homepage was redesigned around a warm editorial identity, a gently an
 ## Turnstile Spin — integração preparada, conta pendente
 
 O frontend e o Worker foram alinhados ao contrato Spin: ação `waitlist_signup`, validação por hostname exato, token de até 2048 caracteres, validação canônica no backend e rejeição de erro/replay (testada por simulação). Não foi criado widget na conta Cloudflare, nem recuperado/gravadado qualquer segredo real, e nenhuma integração real foi executada por falta de credenciais e hostname de produção confirmado. Consulte `docs/09-turnstile-spin.md` antes de ativar.
+
+## Hardening ? Sess?o 2 (2026-10-17)
+
+- Fontes WOFF2 servidas em `public/fonts/`, com licen?as e hashes de proced?ncia; landing e privacidade dispensam Google Fonts em runtime.
+- CSS da privacidade extra?do para `public/privacy.css`, compat?vel com `style-src 'self'`.
+- `run_worker_first = true` garante a aplica??o dos cabe?alhos do Worker tamb?m aos assets. Isso faz cada pedido de asset invocar o Worker e consumir a quota correspondente; considerar antes de publicar. Refer?ncia: https://developers.cloudflare.com/workers/static-assets/routing/worker-script/
+- Copie `.dev.vars.example` para `.dev.vars` e preencha somente com a secret de teste local. O exemplo ? rastre?vel; arquivos privados continuam ignorados.
+- `npm test` executa os contratos de API, CSP/cabe?alhos, roteamento de assets, fontes e gitignore, sem instalar depend?ncias nem acessar servi?os externos. Exige Node 20+ e Git.
+- Pr?via est?tica n?o aplica cabe?alhos do Worker. Valida??o real de CSP e Turnstile requer Wrangler em ambiente compat?vel (WSL2/Linux se o workerd falhar no Windows), D1 e widget de teste; n?o substitua por chave de produ??o.
