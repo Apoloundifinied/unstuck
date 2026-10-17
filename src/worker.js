@@ -92,7 +92,8 @@ async function subscribe(req, env) {
 }
 async function profile(req, env) {
   const body = await parseJson(req);
-  if (!body || !originMatches(req)) return makeJson({ok:false,error:'validation'},400);
+  if (!body) return makeJson({ok:false,error:'validation'},400);
+  if (!originMatches(req)) return makeJson({ok:false,error:'origin'},403);
   if (!env.DB) return makeJson({ok:false,error:'not_configured'},503);
   if (!RE_UUID.test(body.id || '') || !/^[a-f0-9]{64}$/.test(body.token || '')) return makeJson({ok:false,error:'validation'},400);
   try {
