@@ -8,6 +8,47 @@ import worker from '../src/worker.js';
 const read = path => readFile(new URL(path, import.meta.url), 'utf8');
 const noAssets = { ASSETS: { fetch() { throw new Error('API fell through to assets'); } } };
 
+test('profile rejects foreign and malformed origins with 403 before reading the database', async () => {
+  const env = { DB: { prepare() { throw new Error('Rejected origin reached database'); } } };
+  for (const origin of ['https://evil.test', 'null', 'not-a-url', 'http://unstuck.test']) {
+    const response = await worker.fetch(new Request('https://unstuck.test/api/profile', {
+      method: 'POST', headers: { 'content-type': 'application/json', origin }, body: '{}',
+    }), env);
+    assert.equal(response.status, 403, origin);
+    assert.deepEqual(await response.json(), { ok: false, error: 'origin' });
+    assert.equal(response.headers.get('cache-control'), 'no-store');
+  }
+  const malformed = await worker.fetch(new Request('https://unstuck.test/api/profile', {
+    method: 'POST', headers: { 'content-type': 'application/json', origin: 'https://unstuck.test' }, body: 'null',
+  }), env);
+  assert.equal(malformed.status, 400);
+  const validBody = { id: '00000000-0000-4000-8000-000000000001', token: '0'.repeat(64) };
+  for (const origin of [undefined, 'https://unstuck.test']) {
+    const headers = { 'content-type': 'application/json' };
+    if (origin) headers.origin = origin;
+    const response = await worker.fetch(new Request('https://unstuck.test/api/profile', {
+      method: 'POST', headers, body: JSON.stringify(validBody),
+    }), {});
+    assert.equal(response.status, 503); // accepted origin reaches the configuration check
+  }
+});
+
+test('canonical and sharing metadata use the operator-confirmed public URL on both pages', async () => {
+  for (const [file, path] of [['../public/index.html', '/'], ['../public/privacidade/index.html', '/privacidade/']]) {
+    const html = await read(file);
+    const canonical = html.match(/rel="canonical" href="([^"]+)"/)[1];
+    assert.equal(canonical, `https://unstuck-akl7.vercel.app${path}`);
+    assert.equal(html.match(/property="og:url" content="([^"]+)"/)[1], canonical);
+    const title = html.match(/<title>([^<]+)<\/title>/)[1];
+    assert.equal(html.match(/property="og:title" content="([^"]+)"/)[1], title);
+    assert.equal(html.match(/name="twitter:title" content="([^"]+)"/)[1], title);
+    const description = html.match(/name="description" content="([^"]+)"/)[1];
+    assert.equal(html.match(/property="og:description" content="([^"]+)"/)[1], description);
+    assert.equal(html.match(/name="twitter:description" content="([^"]+)"/)[1], description);
+    assert.match(html, /name="twitter:card" content="summary"/);
+  }
+});
+
 test('API rejects unsupported methods before accessing services', async () => {
   for (const path of ['/api/subscribe', '/api/profile']) {
     for (const method of ['GET', 'HEAD', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']) {
