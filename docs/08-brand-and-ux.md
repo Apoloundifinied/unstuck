@@ -20,6 +20,12 @@ This is a **two-sided waitlist**, not a live marketplace. Every example request 
 
 Heading: DM Sans (600/500) with Instrument Serif italic for controlled contrast. UI: DM Sans. Technical labels: DM Mono. Fonts fall back to system sans/serif/mono.
 
+## System dark appearance (2026-10-17)
+
+The existing light design, typography, geometry, illustrations and interactions remain the baseline. Both homepage and privacy load `public/dark.css` only through `media="(prefers-color-scheme: dark)"`. The browser updates the theme live when the OS preference changes, without a stored override, toggle or JavaScript. Theme-color metadata follows the same preference; native controls use color-scheme dark.
+
+Dark runtime tokens in `dark.css`: page #101113, paper #191B1F, sand #202227, ink #F4F1EB, sub #C4C0BA, quiet #AAA59E, rust #E69B7D, rust-dark #EDAC91, sage #A9BC94, line #41434A. Component overrides replace the original hardcoded light surfaces and low-contrast warm text in diagrams, example profiles, forms and footer. Layout/media breakpoints and reduced-motion rules remain owned by `styles.css`. Privacy shares the appearance stylesheet; its spacing remains in `privacy.css`.
+
 ## Motion
 Hero cards drift subtly with CSS transforms; desktop pointer adds shallow perspective (no WebGL, no JS dependency for content). The scenario explorer has an animated activity pip. All major animation is optional, with `prefers-reduced-motion: reduce` supported. Avoid autoplay narratives that hide the form or require user interaction to understand.
 
